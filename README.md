@@ -20,6 +20,23 @@ cd build
 ../configure --prefix=/opt/qemu --target-list=x86_64-softmmu --enable-cocoa
 make -j 8
 
+# llvm9 build ... llvm11 doesn't build kernel as expected
+cd $HOME
+mkdir llvm9
+cd llvm9
+curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/llvm-9.0.1.src.tar.xz | tar xJ
+curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/clang-9.0.1.src.tar.xz | tar xJ
+curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/lld-9.0.1.src.tar.xz | tar xJ
+mv llvm-9.0.1.src llvm
+mv clang-9.0.1.src clang
+mv lld-9.0.1.src lld
+mkdir build
+cd build
+cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/opt/llvm9 -DLLVM_ENABLE_PROJECTS="clang;lld" ../llvm
+make -j 8
+sudo make install
+export PATH=/opt/llvm9/bin:$PATH
+
 # other tools
 brew install nasm dosfstools binutils
 export PATH=/opt/homebrew/sbin:/opt/homebrew/opt/binutils/bin:$PATH

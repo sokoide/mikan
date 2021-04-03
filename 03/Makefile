@@ -11,7 +11,7 @@ TARGETIMG=disk.img
 $(TARGETIMG): $(TARGETEFI) $(KERNEL)
 	$(MIKANDEV)/devenv/make_image.sh $(TARGETIMG) mnt $(TARGETEFI) $(KERNEL)
 
-$(TARGETEFI): $(SRCS) $(KERNEL)
+$(TARGETEFI): $(SRCS)
 	if test -d $(WORKSPACE)/MikanLoaderPkg; then \
 		rm -rf $(WORKSPACE)/MikanLoaderPkg; \
 		fi
@@ -20,9 +20,9 @@ $(TARGETEFI): $(SRCS) $(KERNEL)
 
 $(KERNEL): $(KERNELSRC)
 	clang++ -O2 -Wall -g --target=x86_64-elf -ffreestanding -mno-red-zone -fno-exceptions -fno-rtti -std=c++17 -c $<
-	ld.lld --entry KernelMain -z norelro --image-base 0x100000 --static -o $(KERNEL) main.o
+	ld.lld --entry KernelMain -z norelro --image-base 0x100000 --static -o $@ $(KERNELO)
 
-run: $(TARGET)
+run: $(TARGETIMG)
 	$(MIKANDEV)/devenv/run_image.sh $(TARGETIMG)
 
 mount: $(TARGETIMG)

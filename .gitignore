@@ -1,6 +1,9 @@
 .DS_Store
+.vscode
 .cache
 mikanos
 mikanos-build
 tags
 *.img
+*.elf
+*.o

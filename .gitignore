@@ -1,0 +1,6 @@
+.DS_Store
+.cache
+mikanos
+mikanos-build
+tags
+*.img

@@ -8,6 +8,19 @@ TARGETDIR=$(WORKSPACE)/Build/MikanLoaderX64
 TARGETEFI=$(TARGETDIR)/DEBUG_CLANGPDB/X64/MikanLoaderPkg/Loader/DEBUG/Loader.efi
 TARGETIMG=disk.img
 
+BASEDIR=/opt/homebrew/Cellar/gcc/10.2.0_4
+EDK2DIR=$(WORKSPACE)
+
+CXX=clang++
+CXXFLAGS=-O2 -Wall -g --target=x86_64-elf -ffreestanding -mno-red-zone -fno-exceptions -fno-rtti -std=c++17 \
+-I$(BASEDIR)/include/c++/v1 -I$(BASEDIR)/include/c++/10.2.1 -I$(BASEDIR)/include/c++/10.2.1/aarch64-apple-darwin20 \
+-I$(BASEDIR)/include -I$(BASEDIR)/include/freetype2 \
+-I$(EDK2DIR)/MdePkg/Include -I$(EDK2DIR)/MdePkg/Include/X64 \
+-nostdlibinc -D__ELF__ -D_LDBL_EQ_DBL -D_GNU_SOURCE -D_POSIX_TIMERS \
+-DEFIAPI='__attribute__((ms_abi))'
+LD=ld.lld
+LDFLAGS=-L$(BASEDIR)/lib --entry KernelMain -z norelro --image-base 0x100000 --static
+
 $(TARGETIMG): $(TARGETEFI) $(KERNEL)
 	$(MIKANDEV)/devenv/make_image.sh $(TARGETIMG) mnt $(TARGETEFI) $(KERNEL)
 
@@ -19,8 +32,8 @@ $(TARGETEFI): $(SRCS)
 	build
 
 $(KERNEL): $(KERNELSRC)
-	clang++ -O2 -Wall -g --target=x86_64-elf -ffreestanding -mno-red-zone -fno-exceptions -fno-rtti -std=c++17 -c $<
-	ld.lld --entry KernelMain -z norelro --image-base 0x100000 --static -o $@ $(KERNELO)
+	$(CXX) $(CXXFLAGS) -c $<
+	$(LD) $(LDFLAGS) -o $@ $(KERNELO)
 
 run: $(TARGETIMG)
 	$(MIKANDEV)/devenv/run_image.sh $(TARGETIMG)

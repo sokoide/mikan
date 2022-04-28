@@ -1,6 +1,6 @@
-SRCROOT=$(HOME)/repo/qemu_images/mikan/02/MikanLoaderPkg
+SRCROOT=$(HOME)/repo/os/qemu_images/mikan/02/MikanLoaderPkg
 SRCS=$(SRCROOT)/Main.c
-MIKANDEV=$(HOME)/repo/qemu_images/mikan/mikanos-build
+MIKANDEV=$(HOME)/repo/os/qemu_images/mikan/mikanos-build
 TARGETDIR=$(WORKSPACE)/Build/MikanLoaderX64
 TARGETEFI=$(TARGETDIR)/DEBUG_CLANGPDB/X64/MikanLoaderPkg/Loader/DEBUG/Loader.efi
 TARGETIMG=disk.img
@@ -11,7 +11,7 @@ $(TARGETIMG): $(TARGETEFI)
 $(TARGETEFI): $(SRCS)
 	if test -d $(WORKSPACE)/MikanLoaderPkg; then \
 		rm -rf $(WORKSPACE)/MikanLoaderPkg; \
-		fi
+	fi
 	ln -s $(SRCROOT) $(WORKSPACE)/MikanLoaderPkg
 	build
 

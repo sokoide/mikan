@@ -1,19 +1,20 @@
-SRCROOT=$(HOME)/repo/qemu_images/mikan/03
+SRCROOT=$(HOME)/repo/os/qemu_images/mikan/03
 SRCS=$(SRCROOT)/MikanLoaderPkg/Main.c
 KERNELSRC=$(SRCROOT)/kernel/main.cpp
 KERNELO=main.o
 KERNEL=kernel.elf
-MIKANDEV=$(HOME)/repo/qemu_images/mikan/mikanos-build
+MIKANDEV=$(HOME)/repo/os/qemu_images/mikan/mikanos-build
 TARGETDIR=$(WORKSPACE)/Build/MikanLoaderX64
 TARGETEFI=$(TARGETDIR)/DEBUG_CLANGPDB/X64/MikanLoaderPkg/Loader/DEBUG/Loader.efi
 TARGETIMG=disk.img
 
-BASEDIR=/opt/homebrew/Cellar/gcc/10.2.0_4
+BASEDIR=/opt/homebrew/Cellar/gcc/11.3.0
+BASEVER=11
 EDK2DIR=$(WORKSPACE)
 
 CXX=clang++
 CXXFLAGS=-O2 -Wall -g --target=x86_64-elf -ffreestanding -mno-red-zone -fno-exceptions -fno-rtti -std=c++17 \
--I$(BASEDIR)/include/c++/v1 -I$(BASEDIR)/include/c++/10.2.1 -I$(BASEDIR)/include/c++/10.2.1/aarch64-apple-darwin20 \
+-I$(BASEDIR)/include/c++/v1 -I$(BASEDIR)/include/c++/$(BASEVER) -I$(BASEDIR)/include/c++/$(BASEVER)/aarch64-apple-darwin21 \
 -I$(BASEDIR)/include -I$(BASEDIR)/include/freetype2 \
 -I$(EDK2DIR)/MdePkg/Include -I$(EDK2DIR)/MdePkg/Include/X64 \
 -nostdlibinc -D__ELF__ -D_LDBL_EQ_DBL -D_GNU_SOURCE -D_POSIX_TIMERS \

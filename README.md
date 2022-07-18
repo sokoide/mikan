@@ -8,35 +8,12 @@
 ## Setup
 
 ```bash
-# qemu build
-brew install libffi gettext glib pkg-config autoconf automake pixman ninja
+# llvm
+brew install llvm
+# set llvm paths
 
-git clone https://git.qemu.org/git/qemu.git
-cd qemu
-git checkout 9950da284fa5e2ea9ab57d87e05b693fb60c79ce -b work
-curl https://patchew.org/QEMU/161280769492.2878.8851519112088854609.malone@chaenomeles.canonical.com/mbox | git am --3way
-mkdir build
-cd build
-../configure --prefix=/opt/qemu --target-list=x86_64-softmmu --enable-cocoa
-make -j 8
-
-# skip this step. llvm13 works fine
-# (llvm9 build ... llvm11 didn't build kernel as expected)
-#cd $HOME
-#mkdir llvm9
-#cd llvm9
-#curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/llvm-9.0.1.src.tar.xz | tar xJ
-#curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/clang-9.0.1.src.tar.xz | tar xJ
-#curl -L https://github.com/llvm/llvm-project/releases/download/llvmorg-9.0.1/lld-9.0.1.src.tar.xz | tar xJ
-#mv llvm-9.0.1.src llvm
-#mv clang-9.0.1.src clang
-#mv lld-9.0.1.src lld
-#mkdir build
-#cd build
-#cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/opt/llvm9 -DLLVM_ENABLE_PROJECTS="clang;lld" ../llvm
-#make -j 8
-#sudo make install
-#export PATH=/opt/llvm9/bin:$PATH
+# instll qemu
+brew install qemu
 
 # other tools
 brew install nasm dosfstools binutils

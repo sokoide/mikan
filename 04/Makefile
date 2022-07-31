@@ -21,7 +21,7 @@ CXXFLAGS=-O2 -Wall -g --target=x86_64-elf -ffreestanding -mno-red-zone -fno-exce
 -nostdlibinc -D__ELF__ -D_LDBL_EQ_DBL -D_GNU_SOURCE -D_POSIX_TIMERS \
 -DEFIAPI='__attribute__((ms_abi))'
 LD=ld.lld
-LDFLAGS=-L$(BASEDIR)/lib --entry KernelMain -z norelro --image-base 0x100000 --static -z separate-code
+LDFLAGS=-L$(BASEDIR)/lib --entry KernelMain -z norelro --image-base 0x100000 --static
 
 $(TARGETIMG): $(TARGETEFI) $(KERNEL)
 	$(MIKANDEV)/devenv/make_image.sh $(TARGETIMG) mnt $(TARGETEFI) $(KERNEL)

@@ -8,7 +8,7 @@ TARGETDIR=$(WORKSPACE)/Build/MikanLoaderX64
 TARGETEFI=$(TARGETDIR)/DEBUG_CLANGPDB/X64/MikanLoaderPkg/Loader/DEBUG/Loader.efi
 TARGETIMG=disk.img
 
-BASEDIR=/opt/homebrew/Cellar/gcc/11.3.0
+BASEDIR=/opt/homebrew
 BASEVER=11
 EDK2DIR=$(WORKSPACE)
 
@@ -20,7 +20,7 @@ CXXFLAGS=-O2 -Wall -g --target=x86_64-elf -ffreestanding -mno-red-zone -fno-exce
 -nostdlibinc -D__ELF__ -D_LDBL_EQ_DBL -D_GNU_SOURCE -D_POSIX_TIMERS \
 -DEFIAPI='__attribute__((ms_abi))'
 LD=ld.lld
-LDFLAGS=-L$(BASEDIR)/lib --entry KernelMain -z norelro --image-base 0x100000 --static
+LDFLAGS=-L$(BASEDIR)/lib --entry KernelMain -z norelro --image-base 0x100000 --static -z separate-code
 
 $(TARGETIMG): $(TARGETEFI) $(KERNEL)
 	$(MIKANDEV)/devenv/make_image.sh $(TARGETIMG) mnt $(TARGETEFI) $(KERNEL)
